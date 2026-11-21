@@ -1,0 +1,116 @@
+# PosterWall API. The web app's types are generated from this file (GraphQL Codegen).
+
+scalar DateTime
+
+"Films grouped the way the board does: Hollywood/English, British, Hindi, Telugu, Tamil."
+enum Language {
+  ENGLISH
+  UK
+  HINDI
+  TELUGU
+  TAMIL
+}
+
+type User {
+  id: ID!
+  username: String!
+  createdAt: DateTime!
+  "Newest first (up to 50)."
+  posts: [Post!]!
+}
+
+type Post {
+  id: ID!
+  "The movie this post is about."
+  movieTitle: String!
+  releaseYear: Int
+  language: Language!
+  "1–5 stars, or null."
+  rating: Int
+  "Relative URL of the poster image, or null."
+  posterUrl: String
+  "The post's own headline."
+  title: String!
+  body: String!
+  author: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  likeCount: Int!
+  "False when logged out."
+  likedByMe: Boolean!
+  commentCount: Int!
+  "Oldest first."
+  comments: [Comment!]!
+}
+
+type Comment {
+  id: ID!
+  body: String!
+  author: User!
+  createdAt: DateTime!
+}
+
+"A page of the feed. Pass nextCursor as `after` to get the next page; null means the end."
+type PostPage {
+  nodes: [Post!]!
+  nextCursor: String
+}
+
+input PostInput {
+  movieTitle: String!
+  "1888–2100"
+  releaseYear: Int
+  language: Language!
+  "1–5"
+  rating: Int
+  "The path returned by POST /uploads/poster (multipart field 'poster'), or null for no poster."
+  posterPath: String
+  title: String!
+  body: String!
+}
+
+input SignUpInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input LogInInput {
+  username: String!
+  password: String!
+}
+
+type Query {
+  health: Health!
+  "The logged-in user, or null."
+  me: User
+  "Newest first. first: 1–50 (default 10)."
+  feed(first: Int = 10, after: String, language: Language): PostPage!
+  post(id: ID!): Post
+  "Case-insensitive."
+  user(username: String!): User
+}
+
+type Mutation {
+  "Creates the account and logs it in (sets the session cookie)."
+  signUp(input: SignUpInput!): User!
+  logIn(input: LogInInput!): User!
+  "Clears the session cookie. Always true."
+  logOut: Boolean!
+
+  createPost(input: PostInput!): Post!
+  "Author only."
+  updatePost(id: ID!, input: PostInput!): Post!
+  "Author only. Its comments and likes go with it."
+  deletePost(id: ID!): Boolean!
+  "Likes the post, or removes your like if it's there."
+  toggleLike(postId: ID!): Post!
+  addComment(postId: ID!, body: String!): Comment!
+  "The comment's author only."
+  deleteComment(id: ID!): Boolean!
+}
+
+type Health {
+  api: Boolean!
+  database: Boolean!
+}

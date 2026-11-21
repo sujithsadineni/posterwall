@@ -1,0 +1,31 @@
+{
+  "name": "posterwall",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev:api": "npm run dev -w api",
+    "dev:web": "npm run dev -w web",
+    "build": "npm run build -w api && npm run build -w web",
+    "test": "npm test -w api",
+    "test:e2e": "npm run test:e2e -w web",
+    "codegen": "npm run codegen -w web",
+    "lint": "oxlint api/src web/src",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "oxlint": "^1.94.0",
+    "prettier": "^3.10.1"
+  },
+  "overrides": {
+    "@apollo/server": {
+      "@graphql-tools/utils": "^12.1.0"
+    }
+  }
+}

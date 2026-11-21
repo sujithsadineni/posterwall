@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/posterwall/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PosterWall</title>
+    <meta
+      name="description"
+      content="A wall of movie posters: English, UK, Hindi, Telugu and Tamil films, rated and discussed."
+    />
+    <meta name="theme-color" content="#1E1B4B" />
+    <!-- dark class before first paint, so a dark-mode visit doesn't flash white (next-themes takes over after) -->
+    <script>
+      try {
+        const t = localStorage.getItem("theme");
+        if (t === "dark" || (t !== "light" && matchMedia("(prefers-color-scheme: dark)").matches))
+          document.documentElement.classList.add("dark");
+      } catch {}
+    </script>
+    <script type="module" crossorigin src="/posterwall/assets/index-CH68sDh7.js"></script>
+    <link rel="modulepreload" crossorigin href="/posterwall/assets/rolldown-runtime-WkwZ5CU-.js">
+    <link rel="modulepreload" crossorigin href="/posterwall/assets/useTitle-DLIop2mI.js">
+    <link rel="modulepreload" crossorigin href="/posterwall/assets/languages-CafmdIaJ.js">
+    <link rel="modulepreload" crossorigin href="/posterwall/assets/PostCard-CNO43lhP.js">
+    <link rel="stylesheet" crossorigin href="/posterwall/assets/index-D8pjVYGP.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
